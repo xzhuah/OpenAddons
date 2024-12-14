@@ -15,7 +15,7 @@ bl_info = {
     "version": (0, 0, 1),
     "description": "Enable node search with PinYin/支持节点中文拼音搜索",
     "doc_url": "https://github.com/xzhuah/OpenAddons/tree/master/addons/node_pinyin",
-    "tracker_url": "xzhuah77@gmail.com",
+    "tracker_url": "https://github.com/xzhuah/OpenAddons/issues",
     "support": "COMMUNITY",
     "category": "Node"
 }
