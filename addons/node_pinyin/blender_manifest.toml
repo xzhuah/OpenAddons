@@ -1,14 +1,15 @@
 schema_version = "1.0.0"
 
 id = "node_pinyin"
-version = "0.0.1"
+version = "0.0.2"
 name = "szm/首字母"
 tagline = "Enable node search with PinYin/支持节点中文拼音搜索"
 maintainer = "Xinyu Zhu(异次元学者) xzhuah77@gmail.com"
 type = "add-on"
 website = "https://github.com/xzhuah/OpenAddons/tree/master/addons/node_pinyin"
-tags = ["Node", "Geometry Nodes"]
+tags = ["Node", "User Interface"]
 blender_version_min = "4.2.0"
+blender_version_max = "4.4.0"
 license = [
     "SPDX:GPL-3.0-or-later",
 ]

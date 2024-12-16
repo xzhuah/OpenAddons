@@ -1,7 +1,6 @@
 import importlib
 import inspect
 import pkgutil
-import sys
 import typing
 from pathlib import Path
 
@@ -11,10 +10,8 @@ __all__ = (
     "init",
     "register",
     "unregister",
-    "preprocess_dictionary",
     "add_properties",
     "remove_properties",
-    "remove_addon_cache",
 )
 
 from ..types.framework import ExpandableUi, is_extension
@@ -251,25 +248,3 @@ def remove_properties(property_dict: dict[typing.Any, dict[str, typing.Any]]):
         for name in properties.keys():
             if hasattr(cls, name):
                 delattr(cls, name)
-
-
-# preprocess dictionary
-def preprocess_dictionary(dictionary):
-    for key in dictionary:
-        invalid_items = {}
-        for translate_key in dictionary[key]:
-            if isinstance(translate_key, str):
-                invalid_items[translate_key] = dictionary[key][translate_key]
-        for invalid_item in invalid_items:
-            translation = invalid_items[invalid_item]
-            dictionary[key][("*", invalid_item)] = translation
-            dictionary[key][("Operator", invalid_item)] = translation
-            del dictionary[key][invalid_item]
-    return dictionary
-
-def remove_addon_cache(addon_module_prefix):
-    all_modules = sys.modules
-    all_modules = dict(sorted(all_modules.items(), key=lambda x: x[0]))
-    for module_name in all_modules:
-        if module_name.startswith(addon_module_prefix):
-            del sys.modules[module_name]

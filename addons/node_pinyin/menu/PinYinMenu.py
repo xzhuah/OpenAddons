@@ -5,7 +5,6 @@ from bpy.types import Context
 from ..config import __addon_name__
 from ..data.data import PIN_YIN_NODE_LIST, SHADER_NODE_IN_GEOMETRY, HAIR_NODES, SMOOTH_BY_ANGLE
 from ..preference.AddonPreferences import MenuEnhancePreferences
-from ....common.types.framework import ExpandableUi
 
 
 def index_list(pin_ying_list: list[str], ui_name: str):
@@ -148,13 +147,8 @@ class ChineseNodeSearchMenu(bpy.types.Menu):
                     if hasattr(bpy.types, opname):
                         node_add_menu.add_node_type(layout, opname, label=label_name(item))
 
-
-class PinYinNodeSearchMenuExpand(ExpandableUi):
-    """PinYin Node Search Menu"""
-    target_id = bpy.types.NODE_MT_add.__name__
-
-    def draw(self, context):
-        layout = self.layout
-        layout: bpy.types.UILayout
-        # layout.
-        layout.menu(ChineseNodeSearchMenu.bl_idname, text="Enhanced Search")
+def expand_menu(self, context):
+    layout = self.layout
+    layout: bpy.types.UILayout
+    # layout.
+    layout.menu(ChineseNodeSearchMenu.bl_idname, text="Enhanced Search")

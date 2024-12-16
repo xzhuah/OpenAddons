@@ -1,65 +1,65 @@
-#name: Automatic Release Addon Action
-#
-#on:
-#  push:
-#    branches:
-#      - master
-#
-#jobs:
-#  release:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      # Step 1: Checkout the code
-#      - name: Checkout code
-#        uses: actions/checkout@v3
-#
-#      # Step 2: Set up Python environment
-#      - name: Set up Python
-#        uses: actions/setup-python@v4
-#        with:
-#          python-version: '3.11'
-#
-#      # Step 3: Run the release command for each addon. Please update this step according to your project.
-#      - name: Run release command for node_pinyin
-#        run: |
-#          python release.py node_pinyin --with_version
-#      # Add additional steps for each addon as needed... 按如下格式添加其他插件的发布命令
-#      - name: Run release command for node_pinyin as extension
-#        run: |
-#          python release.py node_pinyin --is_extension --with_version
-#      #
-#      #      - name: Run release command for addon2
-#      #        run: |
-#      #          python release.py addon2 --is_extension --with_version --with_timestamp
-#
-#      # Add additional steps for each addon as needed...
-#      # You can add more steps as needed for each addon.
-#
-#      # Step 4: List files in addon_release directory
-#      - name: List files in addon_release directory
-#        run: |
-#          echo "Files in addon_release directory:"
-#          ls ../addon_release
-#
-#      # Step 5: Create GitHub Release
-#      - name: Create GitHub Release
-#        id: create_release
-#        uses: actions/create-release@v1
-#        with:
-#          tag_name: "release-${{ github.run_id }}"
-#          release_name: "Release ${{ github.run_id }}"
-#          draft: false
-#          prerelease: false
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#
-#      # Step 6: Upload release assets
-#      - name: Upload release assets
-#        run: |
-#          for file in ../addon_release/*.zip; do
-#            echo "Uploading $file..."
-#            gh release upload "release-${{ github.run_id }}" "$file"
-#          done
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+name: Automatic Release Addon Action
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      # Step 3: Run the release command for each addon. Please update this step according to your project.
+      - name: Run release command for node_pinyin
+        run: |
+          python release.py node_pinyin --with_version
+      # Add additional steps for each addon as needed... 按如下格式添加其他插件的发布命令
+      - name: Run release command for node_pinyin as extension
+        run: |
+          python release.py node_pinyin --is_extension --with_version
+      #
+      #      - name: Run release command for addon2
+      #        run: |
+      #          python release.py addon2 --is_extension --with_version --with_timestamp
+
+      # Add additional steps for each addon as needed...
+      # You can add more steps as needed for each addon.
+
+      # Step 4: List files in addon_release directory
+      - name: List files in addon_release directory
+        run: |
+          echo "Files in addon_release directory:"
+          ls ../addon_release
+
+      # Step 5: Create GitHub Release
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: "release-${{ github.run_id }}"
+          release_name: "Release ${{ github.run_id }}"
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 6: Upload release assets
+      - name: Upload release assets
+        run: |
+          for file in ../addon_release/*.zip; do
+            echo "Uploading $file..."
+            gh release upload "release-${{ github.run_id }}" "$file"
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
