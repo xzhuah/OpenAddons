@@ -145,7 +145,7 @@ class ChineseNodeSearchMenu(bpy.types.Menu):
                     ops.asset_library_type = 'ESSENTIALS'
                     ops.asset_library_identifier = ""
                     ops.relative_asset_identifier = os.path.join("geometry_nodes", "smooth_by_angle.blend",
-                                                                 "NodeTree" + key)
+                                                                 "NodeTree", key)
 
         elif context.space_data.tree_type == "TextureNodeTree":
             for item in PIN_YIN_NODE_LIST:
