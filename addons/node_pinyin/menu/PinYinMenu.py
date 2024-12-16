@@ -1,3 +1,5 @@
+import os.path
+
 import bpy
 from bl_ui import node_add_menu
 from bpy.types import Context
@@ -43,6 +45,7 @@ def special_label_name(chinese, first, full, english):
         result.append(english)
     return chinese + " " + " ".join(result)
 
+
 def asset_label_name(key, items):
     preference = bpy.context.preferences.addons[__addon_name__].preferences
     assert isinstance(preference, MenuEnhancePreferences)
@@ -54,6 +57,7 @@ def asset_label_name(key, items):
     if preference.english_name:
         result.append(key)
     return items[0] + " " + " ".join(result)
+
 
 def mix_vector_label_name():
     return special_label_name("混合矢量", "hhsl", "hunheshiliang", "MixVector")
@@ -132,13 +136,16 @@ class ChineseNodeSearchMenu(bpy.types.Menu):
                     ops = layout.operator("node.add_group_asset", text=asset_label_name(key, HAIR_NODES[key]))
                     ops.asset_library_type = 'ESSENTIALS'
                     ops.asset_library_identifier = ""
-                    ops.relative_asset_identifier = "geometry_nodes\\procedural_hair_node_assets.blend\\NodeTree\\" + key
+
+                    ops.relative_asset_identifier = os.path.join("geometry_nodes", "procedural_hair_node_assets.blend",
+                                                                 "NodeTree", key)
 
                 for key in SMOOTH_BY_ANGLE:
                     ops = layout.operator("node.add_group_asset", text=asset_label_name(key, SMOOTH_BY_ANGLE[key]))
                     ops.asset_library_type = 'ESSENTIALS'
                     ops.asset_library_identifier = ""
-                    ops.relative_asset_identifier = "geometry_nodes\\smooth_by_angle.blend\\NodeTree\\" + key
+                    ops.relative_asset_identifier = os.path.join("geometry_nodes", "smooth_by_angle.blend",
+                                                                 "NodeTree" + key)
 
         elif context.space_data.tree_type == "TextureNodeTree":
             for item in PIN_YIN_NODE_LIST:
@@ -146,6 +153,7 @@ class ChineseNodeSearchMenu(bpy.types.Menu):
                     opname = item[0] + item[1]
                     if hasattr(bpy.types, opname):
                         node_add_menu.add_node_type(layout, opname, label=label_name(item))
+
 
 def expand_menu(self, context):
     layout = self.layout
