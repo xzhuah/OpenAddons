@@ -40,6 +40,7 @@ bpy.app.translations.pgettext(english_name, "NodeTree")
 使用拼音库[pypinyin](https://pypi.org/project/pypinyin/)，获取中文拼音
 极少数情况下需要手动纠正，比如"行列式"的拼音是hanglieshi，而不是xinglieshi
 "栅格"的拼音是shange，而不是zhage
+"重新"的拼音是chongxin，而不是zhongxin
 
 Blender官方内置资产库中的节点组(毛发，平滑法向等),需要参考Blender本身的代码提示
 
@@ -93,6 +94,7 @@ Use pinyin library[pypinyin](https://pypi.org/project/pypinyin/)，to get Chines
 In very rare cases, you may need to manually correct the PinYin, e.g. the PinYin of "行列式" is hanglieshi, not
 xinglieshi
 The PinYin of "栅格" is shange, not zhage
+The PinYin of "重新" is chongxin, not zhongxin
 
 For Blender official built-in node groups from internal assert library(hair, smooth normal, etc.), you need to refer to
 Blender's own code hints
