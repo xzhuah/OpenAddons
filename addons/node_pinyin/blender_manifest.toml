@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "node_pinyin"
-version = "0.0.2"
+version = "1.0.0"
 name = "szm/首字母"
 tagline = "Enable node search with PinYin/支持节点中文拼音搜索"
 maintainer = "Xinyu Zhu(异次元学者) xzhuah77@gmail.com"

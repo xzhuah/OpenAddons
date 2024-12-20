@@ -24,7 +24,7 @@ class MenuEnhancePreferences(AddonPreferences):
 
     english_name: BoolProperty(
         name="english",
-        default=False,
+        default=True,
     )
 
     def draw(self, context: bpy.types.Context):
