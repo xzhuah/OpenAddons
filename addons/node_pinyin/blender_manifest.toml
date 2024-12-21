@@ -9,7 +9,7 @@ type = "add-on"
 website = "https://github.com/xzhuah/OpenAddons/tree/master/addons/node_pinyin"
 tags = ["Node", "User Interface"]
 blender_version_min = "4.2.0"
-blender_version_max = "4.4.0"
+# blender_version_max = "4.4.0"
 license = [
     "SPDX:GPL-3.0-or-later",
 ]
