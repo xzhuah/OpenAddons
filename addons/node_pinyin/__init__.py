@@ -12,7 +12,7 @@ bl_info = {
     "name": "szm/首字母",
     "author": "Xinyu Zhu(异次元学者)",
     "blender": (4, 0, 0),
-    "version": (1, 0, 0),
+    "version": (1, 0, 1),
     "description": "Enable node search with PinYin/支持节点中文拼音搜索",
     "doc_url": "https://github.com/xzhuah/OpenAddons/tree/master/addons/node_pinyin",
     "tracker_url": "https://github.com/xzhuah/OpenAddons/issues",
@@ -29,6 +29,11 @@ def register():
     # Internationalization
     load_dictionary(dictionary)
     bpy.app.translations.register(__addon_name__, common_dictionary)
+
+    # for t in bpy.types:
+    #     if
+    # bpy.types.
+
 
     print("{} addon is installed.".format(__addon_name__))
 

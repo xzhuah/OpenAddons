@@ -5,7 +5,7 @@ from bl_ui import node_add_menu
 from bpy.types import Context
 
 from ..config import __addon_name__
-from ..data.data import PIN_YIN_NODE_LIST, SHADER_NODE_IN_GEOMETRY, HAIR_NODES, SMOOTH_BY_ANGLE
+from ..data.data import PIN_YIN_NODE_LIST, SHADER_NODE_IN_GEOMETRY, HAIR_NODES, SMOOTH_BY_ANGLE, VRAY_NODE_LIST
 from ..preference.AddonPreferences import MenuEnhancePreferences
 
 
@@ -30,6 +30,15 @@ def label_name(item: tuple):
     chinese_name = item[3]
     # pinyin
     pin_yin = item[4]
+    return chinese_name + " " + index_list(pin_yin, ui_name)
+
+
+def vray_label_name(item: tuple):
+    ui_name = item[0]
+    # chinese
+    chinese_name = item[1]
+    # pinyin
+    pin_yin = item[2]
     return chinese_name + " " + index_list(pin_yin, ui_name)
 
 
@@ -153,6 +162,10 @@ class ChineseNodeSearchMenu(bpy.types.Menu):
                     opname = item[0] + item[1]
                     if hasattr(bpy.types, opname):
                         node_add_menu.add_node_type(layout, opname, label=label_name(item))
+
+        elif context.space_data.tree_type == "VRayNodeTreeEditor":
+            for key in VRAY_NODE_LIST:
+                node_add_menu.add_node_type(layout, key, label=vray_label_name(VRAY_NODE_LIST[key]))
 
 
 def expand_menu(self, context):
