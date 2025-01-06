@@ -1,9 +1,9 @@
 schema_version = "1.0.0"
 
 id = "node_pinyin"
-version = "1.0.1"
+version = "1.1.0"
 name = "szm/首字母"
-tagline = "Enable node search with PinYin/支持节点中文拼音搜索"
+tagline = "Enable node and modifier search with PinYin/支持节点和修改器的中文拼音搜索"
 maintainer = "Xinyu Zhu(异次元学者) xzhuah77@gmail.com"
 type = "add-on"
 website = "https://github.com/xzhuah/OpenAddons/tree/master/addons/node_pinyin"

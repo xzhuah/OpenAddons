@@ -1,12 +1,51 @@
+import itertools
 import os.path
 
 import bpy
 from bl_ui import node_add_menu
 from bpy.types import Context
 
+from common.types.framework import ExpandableUi
 from ..config import __addon_name__
-from ..data.data import PIN_YIN_NODE_LIST, SHADER_NODE_IN_GEOMETRY, HAIR_NODES, SMOOTH_BY_ANGLE, VRAY_NODE_LIST
+from ..data.data import PIN_YIN_NODE_LIST, SHADER_NODE_IN_GEOMETRY, HAIR_NODES, SMOOTH_BY_ANGLE, VRAY_NODE_LIST, \
+    MODIFIER_DICT, MODIFIER_OBJECT_TYPES
 from ..preference.AddonPreferences import MenuEnhancePreferences
+
+
+def get_swapping_dict():
+    preference = bpy.context.preferences.addons[__addon_name__].preferences
+    assert isinstance(preference, MenuEnhancePreferences)
+    swapping_dict = {}
+    if preference.fuzzy_f_h:
+        swapping_dict['f'] = ['f', 'h']
+        swapping_dict['h'] = ['f', 'h']
+    if preference.fuzzy_n_l:
+        swapping_dict['n'] = ['n', 'l']
+        swapping_dict['l'] = ['n', 'l']
+    if preference.fuzzy_r_l:
+        swapping_dict['r'] = ['r', 'l']
+        swapping_dict['l'] = ['r', 'l']
+    if preference.fuzzy_n_l and preference.fuzzy_r_l:
+        swapping_dict['l'] = ['n', 'l', 'r']
+    return swapping_dict
+
+
+def fuzzy_list(szm: str) -> list[str]:
+    """根据首字母拼音返回所有可能的模糊拼音，
+    如输入lx 返回['lx', 'nx']
+    输入 llx 返回['llx', 'nlx', 'lnx', 'nnx']
+    """
+    swap_dict = get_swapping_dict()
+    if len(swap_dict) == 0:
+        return [szm]
+    possibilities = []
+    for char in szm:
+        if char in swap_dict:
+            possibilities.append(swap_dict[char])
+        else:
+            possibilities.append([char])
+    result = [''.join(combination) for combination in itertools.product(*possibilities)]
+    return result
 
 
 def index_list(pin_ying_list: list[str], ui_name: str):
@@ -16,12 +55,21 @@ def index_list(pin_ying_list: list[str], ui_name: str):
     full = "".join(pin_ying_list)
     result = []
     if preference.first_pinyin:
-        result.append(first_char)
+        result.append(" ".join(fuzzy_list(first_char)))
     if preference.full_pinyin:
         result.append(full)
     if preference.english_name:
         result.append(ui_name)
     return " ".join(result)
+
+
+def modifier_label_name(item: list):
+    ui_name = item[0]
+    # chinese
+    chinese_name = item[1]
+    # pinyin
+    pin_yin = item[2]
+    return combine_label_name(chinese_name, pin_yin, ui_name)
 
 
 def label_name(item: tuple):
@@ -30,7 +78,7 @@ def label_name(item: tuple):
     chinese_name = item[3]
     # pinyin
     pin_yin = item[4]
-    return chinese_name + " " + index_list(pin_yin, ui_name)
+    return combine_label_name(chinese_name, pin_yin, ui_name)
 
 
 def vray_label_name(item: tuple):
@@ -39,20 +87,13 @@ def vray_label_name(item: tuple):
     chinese_name = item[1]
     # pinyin
     pin_yin = item[2]
-    return chinese_name + " " + index_list(pin_yin, ui_name)
+    return combine_label_name(chinese_name, pin_yin, ui_name)
 
 
-def special_label_name(chinese, first, full, english):
+def combine_label_name(chinese, full, english):
     preference = bpy.context.preferences.addons[__addon_name__].preferences
     assert isinstance(preference, MenuEnhancePreferences)
-    result = []
-    if preference.first_pinyin:
-        result.append(first)
-    if preference.full_pinyin:
-        result.append(full)
-    if preference.english_name:
-        result.append(english)
-    return chinese + " " + " ".join(result)
+    return chinese + " " + index_list(full, english)
 
 
 def asset_label_name(key, items):
@@ -69,11 +110,11 @@ def asset_label_name(key, items):
 
 
 def mix_vector_label_name():
-    return special_label_name("混合矢量", "hhsl", "hunheshiliang", "MixVector")
+    return combine_label_name("混合矢量", ["hun", "he", "shi", "liang"], "MixVector")
 
 
 def mix_color_label_name():
-    return special_label_name("混合颜色", "hhys", "hunheyanse", "MixColor")
+    return combine_label_name("混合颜色", ["hun", "he", "yan", "se"], "MixColor")
 
 
 class ChineseNodeSearchMenu(bpy.types.Menu):
@@ -129,15 +170,16 @@ class ChineseNodeSearchMenu(bpy.types.Menu):
                 ops.name = "data_type"
                 ops.value = "'RGBA'"
             if hasattr(node_add_menu, "add_simulation_zone"):
-                node_add_menu.add_simulation_zone(layout, label=special_label_name("模拟", "mn", "moni", "Simulation"))
+                node_add_menu.add_simulation_zone(layout, label=combine_label_name("模拟", ["mo", "ni"], "Simulation"))
 
             if hasattr(node_add_menu, "add_foreach_geometry_element_zone"):
-                node_add_menu.add_foreach_geometry_element_zone(layout, label=special_label_name("遍历元素", "blyy",
-                                                                                                 "bianliyuansu",
+                node_add_menu.add_foreach_geometry_element_zone(layout, label=combine_label_name("遍历元素",
+                                                                                                 ["bian", "li", "yuan",
+                                                                                                  "su"],
                                                                                                  "For Each Element"))
 
             if hasattr(node_add_menu, "add_repeat_zone"):
-                node_add_menu.add_repeat_zone(layout, label=special_label_name("重复", "cf", "chongfu", "Repeat"))
+                node_add_menu.add_repeat_zone(layout, label=combine_label_name("重复", ["chong", "fu"], "Repeat"))
 
             if hasattr(node_add_menu, "draw_root_assets"):
                 layout.operator_context = "INVOKE_DEFAULT"
@@ -168,8 +210,86 @@ class ChineseNodeSearchMenu(bpy.types.Menu):
                 node_add_menu.add_node_type(layout, key, label=vray_label_name(VRAY_NODE_LIST[key]))
 
 
-def expand_menu(self, context):
-    layout = self.layout
-    layout: bpy.types.UILayout
-    # layout.
-    layout.menu(ChineseNodeSearchMenu.bl_idname, text="Enhanced Search")
+class ChineseModifierSearchMenu(bpy.types.Menu):
+    """PinYin Modifier Search Menu"""
+    bl_idname = "OBJECT_MT_modifier_add_enhanced"
+    bl_label = "Modifiers"
+
+    @classmethod
+    def operator_modifier_add(cls, layout, mod_type):
+        layout.operator(
+            "object.modifier_add",
+            text=modifier_label_name(MODIFIER_DICT[mod_type]),
+            # # Although these are operators, the label actually comes from an (enum) property,
+            # # so the property's translation context must be used here.
+            # text_ctxt=bpy.types.Modifier.bl_rna.properties["type"].translation_context
+        ).type = mod_type
+
+    def draw(self, context: Context):
+        layout = self.layout
+        active_object = bpy.context.active_object
+        if active_object and len(context.selected_objects) > 0:
+            if active_object.type in MODIFIER_OBJECT_TYPES:
+                for mod_type in MODIFIER_DICT:
+                    if mod_type.startswith("GREASE_PENCIL") and active_object.type != 'GREASEPENCIL':
+                        continue
+                    try:
+                        self.operator_modifier_add(layout, mod_type)
+                    except Exception as e:
+                        # some modifiers are not available for some object types
+                        # use try-except to skip them
+                        pass
+            if active_object.type == 'MESH':
+                # add fur modifier
+                for key in HAIR_NODES:
+                    ops = layout.operator("object.modifier_add_node_group", text=asset_label_name(key, HAIR_NODES[key]))
+                    ops.asset_library_type = 'ESSENTIALS'
+                    ops.asset_library_identifier = ""
+
+                    ops.relative_asset_identifier = os.path.join("geometry_nodes", "procedural_hair_node_assets.blend",
+                                                                 "NodeTree", key)
+                    ops.use_selected_objects = True
+
+
+class MenuToExpand(ExpandableUi):
+    target_id = bpy.types.NODE_MT_add.__name__
+
+    def draw(self, context: bpy.types.Context):
+        self.layout.menu(ChineseNodeSearchMenu.bl_idname, text="Enhanced Search")
+
+
+class ModifierMenuToExpand(ExpandableUi):
+    target_id = bpy.types.OBJECT_MT_modifier_add.__name__
+
+    def draw(self, context: bpy.types.Context):
+        preference = bpy.context.preferences.addons[__addon_name__].preferences
+        assert isinstance(preference, MenuEnhancePreferences)
+        if preference.enable_modifiers_search:
+            self.layout.menu(ChineseModifierSearchMenu.bl_idname, text="Enhanced Search")
+
+
+# class ModifierMenuSearchToExpand(ExpandableUi):
+#     target_id = bpy.types.OBJECT_MT_modifier_add.__name__
+#     expand_mode = "PREPEND"
+#
+#     def draw(self, context: bpy.types.Context):
+#         self.layout.operator("WM_OT_search_single_menu", text="Search...",
+#                              icon='VIEWZOOM').menu_idname = "OBJECT_MT_modifier_add"
+
+
+class VIEW_3D_EDITOR_MENU(ExpandableUi):
+    target_id = bpy.types.VIEW3D_MT_editor_menus.__name__
+
+    def draw(self, context: bpy.types.Context):
+        preference = bpy.context.preferences.addons[__addon_name__].preferences
+        assert isinstance(preference, MenuEnhancePreferences)
+        if preference.enable_modifiers_search and context.edit_object and context.active_object.type in MODIFIER_OBJECT_TYPES:
+            self.layout.menu(bpy.types.OBJECT_MT_modifier_add.__name__)
+
+# class VIEW_3D_EDITOR_MENU_Search(ExpandableUi):
+#     target_id = bpy.types.VIEW3D_MT_editor_menus.__name__
+#     expand_mode = "PREPEND"
+#
+#     def draw(self, context: bpy.types.Context):
+#         self.layout.operator("WM_OT_search_single_menu", text="Search...",
+#                              icon='VIEWZOOM').menu_idname = "OBJECT_MT_modifier_add"
