@@ -258,7 +258,7 @@ class MenuToExpand(ExpandableUi):
 
 
 class ModifierMenuToExpand(ExpandableUi):
-    target_id = bpy.types.OBJECT_MT_modifier_add.__name__
+    target_id =  bpy.types.OBJECT_MT_modifier_add.__name__ if hasattr(bpy.types, "OBJECT_MT_modifier_add") else bpy.types.VIEW3D_MT_object.__name__
 
     def draw(self, context: bpy.types.Context):
         preference = bpy.context.preferences.addons[__addon_name__].preferences

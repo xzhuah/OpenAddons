@@ -15,6 +15,7 @@ dictionary = {
         "This Object Type Does Not Support This Modifier": "此对象类型不支持此修改器",
         "Add Modifier": "添加修改器",
         "Add Modifier Node Group": "添加修改器节点组",
+        "This Modifier is not available in this version of Blender or for this object type": "此修改器不存在于此版本的Blender中，或者不适用于此对象类型",
     }
 }
 

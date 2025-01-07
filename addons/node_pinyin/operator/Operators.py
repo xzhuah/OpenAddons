@@ -22,8 +22,11 @@ class AddModifierAndChangePropertiesContext(bpy.types.Operator):
             bpy.ops.object.modifier_add(type=self.type)
             switch_to_modifier_context()
         except Exception as e:
-            bpy.ops.wm.call_menu(name=bpy.types.OBJECT_MT_modifier_add.__name__)
-            self.report({'WARNING'}, "This Object Type Does Not Support This Modifier")
+            if hasattr(bpy.types, 'OBJECT_MT_modifier_add'):
+                bpy.ops.wm.call_menu(name=bpy.types.OBJECT_MT_modifier_add.__name__)
+                self.report({'WARNING'}, "This Object Type Does Not Support This Modifier")
+            else:
+                self.report({'WARNING'}, "This Modifier is not available in this version of Blender or for this object type")
         return {'FINISHED'}
 
 
@@ -41,6 +44,9 @@ class AddModifierNodeGroupAndChangePropertiesContext(bpy.types.Operator):
                                                    relative_asset_identifier=self.relative_asset_identifier)
             switch_to_modifier_context()
         except Exception as e:
-            bpy.ops.wm.call_menu(name=bpy.types.OBJECT_MT_modifier_add.__name__)
-            self.report({'WARNING'}, "This Object Type Does Not Support This Modifier")
+            if hasattr(bpy.types, 'OBJECT_MT_modifier_add'):
+                bpy.ops.wm.call_menu(name=bpy.types.OBJECT_MT_modifier_add.__name__)
+                self.report({'WARNING'}, "This Object Type Does Not Support This Modifier")
+            else:
+                self.report({'WARNING'}, "This Modifier is not available in this version of Blender or for this object type")
         return {'FINISHED'}
