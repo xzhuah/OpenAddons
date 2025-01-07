@@ -7,8 +7,10 @@
 
 ### 功能
 
-SZM/首字母是一个增强了Blender原生的节点搜索功能的插件，它让用户可以通过中文拼音首字母来快速搜索节点。
+SZM/首字母是一个增强了Blender原生的节点搜索功能的插件，它让用户可以通过中文拼音首字母来快速搜索节点和修改器。
 它还支持通过全拼、中文、英文名来搜索节点。用户可以通过插件设置来自定义索引。
+
+SZM/首字母同时也支持模糊音设置 n=l f=h r=l, 你可以在插件设置中启用。
 
 ### 兼容性
 
@@ -53,11 +55,13 @@ by [执念净化](https://space.bilibili.com/3546704626321613).
 
 ### Features
 
-SZM is a Blender addon that enhance search function on the add node menu by supporting search
+SZM is a Blender addon that enhance search function on the add node menu and modifier menu by supporting search
 with Chinese characters' PinYin initials.
 
 It also supports searching with Full PinYin, Chinese characters, and English name. You can customize the index via the
 addon preferences.
+
+SZM also supports optional ambiguous phonetic settings n=l f=h r=l, you can enable it in the addon preferences.
 
 ### Compatibility
 
