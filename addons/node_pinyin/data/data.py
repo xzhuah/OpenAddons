@@ -886,5 +886,5 @@ MODIFIER_DICT = {
     "SOFT_BODY": ["Soft Body", "软体", ['ruan', 'ti']],
     "SURFACE": ["Surface", "表(曲)面", ['biao', 'mian']]}  # 'qu'
 
-
-MODIFIER_OBJECT_TYPES = {'MESH', 'CURVE', 'CURVES', 'SURFACE', 'FONT', 'VOLUME', 'GREASEPENCIL', 'LATTICE', 'POINTCLOUD'}
+MODIFIER_OBJECT_TYPES = {'MESH', 'CURVE', 'CURVES', 'SURFACE', 'FONT', 'VOLUME', 'GREASEPENCIL', 'LATTICE',
+                         'POINTCLOUD'}

@@ -5,11 +5,12 @@ import bpy
 from bl_ui import node_add_menu
 from bpy.types import Context
 
-from common.types.framework import ExpandableUi
 from ..config import __addon_name__
 from ..data.data import PIN_YIN_NODE_LIST, SHADER_NODE_IN_GEOMETRY, HAIR_NODES, SMOOTH_BY_ANGLE, VRAY_NODE_LIST, \
     MODIFIER_DICT, MODIFIER_OBJECT_TYPES
+from ..operator.Operators import AddModifierAndChangePropertiesContext, AddModifierNodeGroupAndChangePropertiesContext
 from ..preference.AddonPreferences import MenuEnhancePreferences
+from ....common.types.framework import ExpandableUi
 
 
 def get_swapping_dict():
@@ -218,7 +219,8 @@ class ChineseModifierSearchMenu(bpy.types.Menu):
     @classmethod
     def operator_modifier_add(cls, layout, mod_type):
         layout.operator(
-            "object.modifier_add",
+            # "object.modifier_add",
+            AddModifierAndChangePropertiesContext.bl_idname,
             text=modifier_label_name(MODIFIER_DICT[mod_type]),
             # # Although these are operators, the label actually comes from an (enum) property,
             # # so the property's translation context must be used here.
@@ -242,13 +244,10 @@ class ChineseModifierSearchMenu(bpy.types.Menu):
             if active_object.type == 'MESH':
                 # add fur modifier
                 for key in HAIR_NODES:
-                    ops = layout.operator("object.modifier_add_node_group", text=asset_label_name(key, HAIR_NODES[key]))
-                    ops.asset_library_type = 'ESSENTIALS'
-                    ops.asset_library_identifier = ""
-
+                    ops = layout.operator(AddModifierNodeGroupAndChangePropertiesContext.bl_idname,
+                                          text=asset_label_name(key, HAIR_NODES[key]))
                     ops.relative_asset_identifier = os.path.join("geometry_nodes", "procedural_hair_node_assets.blend",
                                                                  "NodeTree", key)
-                    ops.use_selected_objects = True
 
 
 class MenuToExpand(ExpandableUi):
@@ -277,7 +276,7 @@ class ModifierMenuToExpand(ExpandableUi):
 #                              icon='VIEWZOOM').menu_idname = "OBJECT_MT_modifier_add"
 
 
-class VIEW_3D_EDITOR_MENU(ExpandableUi):
+class ModifierMenuForEditorToExpand(ExpandableUi):
     target_id = bpy.types.VIEW3D_MT_editor_menus.__name__
 
     def draw(self, context: bpy.types.Context):

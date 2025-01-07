@@ -1,7 +1,10 @@
+import re
+
 import bpy
 from pypinyin import pinyin, Style
+
 from .config import __addon_name__
-import re
+
 # Add-on info
 bl_info = {
     "name": "Basic Add-on Sample",

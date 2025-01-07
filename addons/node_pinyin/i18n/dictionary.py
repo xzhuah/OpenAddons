@@ -12,6 +12,9 @@ dictionary = {
         "Phonetic Confusion Setting For First Letter": "首字母模糊音设置",
         "Index Settings": "索引设置",
         "Enable Search For Modifiers": "启用修改器搜索",
+        "This Object Type Does Not Support This Modifier": "此对象类型不支持此修改器",
+        "Add Modifier": "添加修改器",
+        "Add Modifier Node Group": "添加修改器节点组",
     }
 }
 

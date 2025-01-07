@@ -62,5 +62,3 @@ class MenuEnhancePreferences(AddonPreferences):
         layout.label(text="Search Settings")
         row = layout.row()
         row.prop(self, "enable_modifiers_search", text="Enable Search For Modifiers")
-
-

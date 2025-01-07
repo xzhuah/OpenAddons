@@ -28,7 +28,7 @@ BLENDER_EXE_PATH = "C:/software/general/Blender/blender-3.6.0-windows-x64/blende
 # 是否是面向Blender4.2以后的扩展而不是传统插件？
 # https://docs.blender.org/manual/en/latest/advanced/extensions/addons.html
 # 在打包扩展时，框架会将绝对导入转换为相对导入。如果你从传统插件迁移到扩展，请确保更新config.py中的__addon_name__
-IS_EXTENSION = True
+IS_EXTENSION = False
 
 # You can override the default path by setting the path manually
 # 您可以通过手动设置路径来覆盖默认插件安装路径 或者在config.ini中设置
