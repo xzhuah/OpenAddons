@@ -230,7 +230,7 @@ class ChineseModifierSearchMenu(bpy.types.Menu):
     def draw(self, context: Context):
         layout = self.layout
         active_object = bpy.context.active_object
-        if active_object and len(context.selected_objects) > 0:
+        if active_object is not None:
             if active_object.type in MODIFIER_OBJECT_TYPES:
                 for mod_type in MODIFIER_DICT:
                     if mod_type.startswith("GREASE_PENCIL") and active_object.type != 'GREASEPENCIL':
