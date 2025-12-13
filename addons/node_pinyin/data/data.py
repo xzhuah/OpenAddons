@@ -4,6 +4,11 @@ PIN_YIN_NODE_LIST = [
     ('Node', 'GroupOutput', 'Group Output', '组输出', ['zu', 'shu', 'chu']),
     ('Node', 'Group', 'Group', '群组', ['qun', 'zu']),
     ('Node', 'Reroute', 'Reroute', '转接点', ['zhuan', 'jie', 'dian']),
+    ('Node', 'EvaluateClosure', 'Evaluate Closure', '解算闭包', ['jie', 'suan', 'bi', 'bao']),
+    ('Node', 'CombineBundle', 'Combine Bundle', '合并捆包', ['he', 'bing', 'kun', 'bao']),
+    ('Node', 'SeparateBundle', 'Separate Bundle', '分离捆包', ['fen', 'li', 'kun', 'bao']),
+    ('Node', 'EnableOutput', 'Enable Output', '启用输出', ['qi', 'yong', 'shu', 'chu']),
+
     ('ShaderNode', 'BrightContrast', 'Brightness/Contrast', '亮度 / 对比度', ['liang', 'du', 'dui', 'bi', 'du']),
     ('ShaderNode', 'CameraData', 'Camera Data', '摄像机数据', ['she', 'xiang', 'ji', 'shu', 'ju']),
     ('ShaderNode', 'Clamp', 'Clamp', '钳制', ['qian', 'zhi']),
@@ -108,8 +113,11 @@ PIN_YIN_NODE_LIST = [
     ('ShaderNode', 'VolumeInfo', 'Volume Info', '体积信息', ['ti', 'ji', 'xin', 'xi']),
     ('ShaderNode', 'VolumePrincipled', 'Principled Volume', '原理化体积', ['yuan', 'li', 'hua', 'ti', 'ji']),
     ('ShaderNode', 'VolumeScatter', 'Volume Scatter', '体积散射', ['ti', 'ji', 'san', 'she']),
-    ('ShaderNode', 'Wavelength', 'Wavelength', '波长', ['bo', 'zhang']),
+    ('ShaderNode', 'Wavelength', 'Wavelength', '波长', ['bo', 'chang']),
     ('ShaderNode', 'Wireframe', 'Wireframe', '线框', ['xian', 'kuang']),
+    ('ShaderNode', 'VolumeCoefficients', 'Volume Coefficients', '体积系数', ['ti', 'ji', 'xi', 'shu']),
+    ('ShaderNode', 'RadialTiling', 'Radial Tiling', '径向平铺', ['jing', 'xiang', 'ping', 'pu']),
+
     ('CompositorNode', 'AlphaOver', 'Alpha Over', 'Alpha上叠', ['a', 'l', 'p', 'h', 'a', 'shang', 'die']),
     ('CompositorNode', 'AntiAliasing', 'Anti-Aliasing', '抗锯齿', ['kang', 'ju', 'chi']),
     ('CompositorNode', 'Bilateralblur', 'Bilateral Blur', '双边模糊', ['shuang', 'bian', 'mo', 'hu']),
@@ -153,7 +161,7 @@ PIN_YIN_NODE_LIST = [
     ('CompositorNode', 'Filter', 'Filter', '滤镜(过滤)', ['lv', 'jing', 'guo', 'lv']),
     ('CompositorNode', 'Flip', 'Flip', '翻转', ['fan', 'zhuan']),
     ('CompositorNode', 'Gamma', 'Gamma', '伽玛', ['ga', 'ma']),
-    ('CompositorNode', 'Glare', 'Glare', '眩光', ['xuan', 'guang']),
+    ('CompositorNode', 'Glare', 'Glare', '眩光', ['xuan', 'guang', "hui", "guang"]),
     ('CompositorNode', 'HueSat', 'Hue/Saturation/Value', '色相/饱和度/明度',
      ['se', 'xiang', 'bao', 'he', 'du', 'ming', 'du']),
     ('CompositorNode', 'HueCorrect', 'Hue Correct', '色相校正', ['se', 'xiang', 'xiao', 'zheng']),
@@ -215,6 +223,10 @@ PIN_YIN_NODE_LIST = [
     ('CompositorNode', 'Levels', 'Levels', '级数', ['ji', 'shu']),
     ('CompositorNode', 'Viewer', 'Viewer', '预览器', ['yu', 'lan', 'qi']),
     ('CompositorNode', 'Zcombine', 'Z Combine', 'Z 通道合成', ['z', 'tong', 'dao', 'he', 'cheng']),
+    ('CompositorNode', 'ImageInfo', 'Image Info', '图像信息', ['tu', 'xiang', 'xin', 'xi']),
+    ('CompositorNode', 'ConvertToDisplay', 'Convert To Display', '转换为显示', ['zhuan', 'huan', 'wei', 'xian', 'shi']),
+    ('CompositorNode', 'Zcombine', 'Depth Combine', '深度合成', ['shen', 'du', 'he', 'cheng']),
+
     ('TextureNode', 'At', 'At', '属性', ['shu', 'xing']),
     ('TextureNode', 'Bricks', 'Bricks', '砖墙', ['zhuan', 'qiang']),
     ('TextureNode', 'Checker', 'Checker', '棋盘格', ['qi', 'pan', 'ge']),
@@ -300,12 +312,15 @@ PIN_YIN_NODE_LIST = [
     ('FunctionNode', 'SeparateMatrix', 'Separate Matrix', '分离矩阵', ['fen', 'li', 'ju', 'zhen']),
     ('FunctionNode', 'SeparateTransform', 'Separate Transform', '分离变换', ['fen', 'li', 'bian', 'huan']),
     ('FunctionNode', 'SliceString', 'Slice String', '字符串切片', ['zi', 'fu', 'chuan', 'qie', 'pian']),
-    ('FunctionNode', 'StringLength', 'String Length', '字符串长度', ['zi', 'fu', 'chuan', 'zhang', 'du']),
+    ('FunctionNode', 'StringLength', 'String Length', '字符串长度', ['zi', 'fu', 'chuan', 'chang', 'du']),
     ('FunctionNode', 'TransformDirection', 'Transform Direction', '变换方向', ['bian', 'huan', 'fang', 'xiang']),
     ('FunctionNode', 'TransformPoint', 'Transform Point', '变换点', ['bian', 'huan', 'dian']),
     ('FunctionNode', 'TransposeMatrix', 'Transpose Matrix', '转置矩阵', ['zhuan', 'zhi', 'ju', 'zhen']),
     ('FunctionNode', 'ValueToString', 'Value to String', '数值 转换为 字符串',
      ['shu', 'zhi', 'zhuan', 'huan', 'wei', 'zi', 'fu', 'chuan']),
+    ('FunctionNode', 'FindInString', 'Find in String ', '在字符串中查找',
+     ['zai', 'zi', 'fu', 'chuan', 'zhong', 'cha', 'zhao']),
+    ('FunctionNode', 'FormatString', 'Format String', 'FormatString', ['ge', 'shi', 'hua', 'zi', 'fu', 'chuan']),
     ('GeometryNode', 'AccumulateField', 'Accumulate Field', '累积场', ['lei', 'ji', 'chang']),
     ('GeometryNode', 'AttributeDomainSize', 'Domain Size', '域大小', ['yu', 'da', 'xiao']),
     ('GeometryNode', 'AttributeStatistic', 'Attribute Statistic', '属性统计', ['shu', 'xing', 'tong', 'ji']),
@@ -318,7 +333,7 @@ PIN_YIN_NODE_LIST = [
     ('GeometryNode', 'CurveEndpointSelection', 'Endpoint Selection', '端点选择', ['duan', 'dian', 'xuan', 'ze']),
     ('GeometryNode', 'CurveHandleTypeSelection', 'Handle Type Selection', '控制柄类型选择',
      ['kong', 'zhi', 'bing', 'lei', 'xing', 'xuan', 'ze']),
-    ('GeometryNode', 'CurveLength', 'Curve Length', '曲线长度', ['qu', 'xian', 'zhang', 'du']),
+    ('GeometryNode', 'CurveLength', 'Curve Length', '曲线长度', ['qu', 'xian', 'chang', 'du']),
     ('GeometryNode', 'CurveArc', 'Arc', '圆弧', ['yuan', 'hu']),
     ('GeometryNode', 'CurvePrimitiveBezierSegment', 'Bézier Segment', '贝塞尔线段',
      ['bei', 'sai', 'er', 'xian', 'duan']),
@@ -327,7 +342,7 @@ PIN_YIN_NODE_LIST = [
     ('GeometryNode', 'CurveQuadraticBezier', 'Quadratic Bézier', '二次型贝塞尔',
      ['er', 'ci', 'xing', 'bei', 'sai', 'er']),
     ('GeometryNode', 'CurvePrimitiveQuadrilateral', 'Quadrilateral', '四边形', ['si', 'bian', 'xing']),
-    ('GeometryNode', 'CurveSpiral', 'Curve Spiral', '曲线螺旋', ['qu', 'xian', 'luo', 'xuan']),
+    ('GeometryNode', 'CurveSpiral', 'Curve Spiral', '螺旋', ['luo', 'xuan']),
     ('GeometryNode', 'CurveStar', 'Star', '星形', ['xing', 'xing']),
     ('GeometryNode', 'CurveSetHandles', 'Set Handle Type', '设置控制柄类型',
      ['she', 'zhi', 'kong', 'zhi', 'bing', 'lei', 'xing']),
@@ -385,6 +400,11 @@ PIN_YIN_NODE_LIST = [
     ('GeometryNode', 'ImportOBJ', 'Import OBJ', '导入 OBJ', ['dao', 'ru', 'o', 'b', 'j']),
     ('GeometryNode', 'ImportPLY', 'Import PLY', '导入 PLY', ['dao', 'ru', 'p', 'l', 'y']),
     ('GeometryNode', 'ImportSTL', 'Import STL', '导入 STL', ['dao', 'ru', 's', 't', 'l']),
+
+    ('GeometryNode', 'ImportCSV', 'Import CSV', '导入 CSV', ['dao', 'ru', 'c', 's', 'v']),
+    ('GeometryNode', 'ImportVDB', 'Import VDB', '导入 VBD', ['dao', 'ru', 'v', 'b', 'd']),
+    ('GeometryNode', 'ImportText', 'Import Text', '导入文本', ['dao', 'ru', 'wen', 'ben']),
+
     ('GeometryNode', 'IndexOfNearest', 'Index of Nearest', '最近编号', ['zui', 'jin', 'bian', 'hao']),
     ('GeometryNode', 'IndexSwitch', 'Index Switch', '编号切换', ['bian', 'hao', 'qie', 'huan']),
     ('GeometryNode', 'InputActiveCamera', 'Active Camera', '活动摄像机', ['huo', 'dong', 'she', 'xiang', 'ji']),
@@ -424,7 +444,7 @@ PIN_YIN_NODE_LIST = [
      ['zui', 'duan', 'bian', 'lu', 'jing']),
     ('GeometryNode', 'InputSplineCyclic', 'Is Spline Cyclic', '是否闭合样条线',
      ['shi', 'fou', 'bi', 'he', 'yang', 'tiao', 'xian']),
-    ('GeometryNode', 'SplineLength', 'Spline Length', '样条线长度', ['yang', 'tiao', 'xian', 'zhang', 'du']),
+    ('GeometryNode', 'SplineLength', 'Spline Length', '样条线长度', ['yang', 'tiao', 'xian', 'chang', 'du']),
     (
         'GeometryNode', 'InputSplineResolution', 'Spline Resolution', '样条线精度',
         ['yang', 'tiao', 'xian', 'jing', 'du']),
@@ -504,7 +524,7 @@ PIN_YIN_NODE_LIST = [
     ('GeometryNode', 'ScaleInstances', 'Scale Instances', '缩放实例', ['suo', 'fang', 'shi', 'li']),
     ('GeometryNode', 'SDFGridBoolean', 'SDF Grid Boolean', 'SDF栅格布尔', ['s', 'd', 'f', 'shan', 'ge', 'bu', 'er']),
     ('GeometryNode', 'SelfObject', 'Self Object', '自身物体', ['zi', 'shen', 'wu', 'ti']),
-    ('GeometryNode', 'SeparateComponents', 'Separate Components', '分离元素', ['fen', 'li', 'yuan', 'su']),
+    ('GeometryNode', 'SeparateComponents', 'Separate Components', '分离组件', ['fen', 'li', 'zu', 'jian']),
     ('GeometryNode', 'SeparateGeometry', 'Separate Geometry', '分离几何体', ['fen', 'li', 'ji', 'he', 'ti']),
     ('GeometryNode', 'SetCurveHandlePositions', 'Set Handle Positions', '设置控制柄位置',
      ['she', 'zhi', 'kong', 'zhi', 'bing', 'wei', 'zhi']),
@@ -560,6 +580,41 @@ PIN_YIN_NODE_LIST = [
     ('GeometryNode', 'VolumeCube', 'Volume Cube', '体积立方体', ['ti', 'ji', 'li', 'fang', 'ti']),
     ('GeometryNode', 'VolumeToMesh', 'Volume to Mesh', '体积 转 网格', ['ti', 'ji', 'zhuan', 'wang', 'ge']),
     ('GeometryNode', 'Warning', 'Warning', '警告', ['jing', 'gao']),
+    ('GeometryNode', 'SetMeshNormal', 'Set Mesh Normal', '设置网格法向', ['she', 'zhi', 'wang', 'ge', 'fa', 'xiang']),
+    ('GeometryNode', 'CameraInfo', 'Camera Info', '摄像机信息', ['she', 'xiang', 'ji', 'xin', 'xi']),
+    ('GeometryNode', 'InputInstanceBounds', 'Instance Bounds', '实例边界', ['shi', 'li', 'bian', 'jie']),
+
+    ('FunctionNode', 'MatchString', 'Instance Bounds', '匹配字符串', ["pi", "pei", "zi", "fu", "chuan"]),
+    ('FunctionNode', 'BitMath', 'Bit Math', '位运算', ['wei', 'yun', 'suan']),
+    ('GeometryNode', 'FieldAverage', 'Field Average', '场平均', ['chang', 'ping', 'jun']),
+    ('GeometryNode', 'FieldVariance', 'Field Variance', '场方差', ['chang', 'fang', 'cha']),
+    ('GeometryNode', 'FieldMinAndMax', 'Field Min And Max', '场极值', ['chang', 'ji', 'zhi']),
+
+    ################
+    ('GeometryNode', 'GridInfo', 'Grid Info', '栅格信息', ['shan', 'ge', 'xin', 'xi']),
+    ('GeometryNode', 'SampleGrid', 'Sample Grid', '采样栅格', ['cai', 'yang', 'shan', 'ge']),
+    ('GeometryNode', 'SampleGridIndex', 'Sample Grid Index', '采样栅格编号',
+     ['cai', 'yang', 'shan', 'ge', 'bian', 'hao']),
+    ('GeometryNode', 'SetGridTransform', 'Set Grid Transform', '设置栅格变换',
+     ['she', 'zhi', 'shan', 'ge', 'bian', 'huan']),
+    ('GeometryNode', 'SetGridBackground', 'Set Grid Background', '设置栅格背景',
+     ['she', 'zhi', 'shan', 'ge', 'bei', 'jing']),
+    ('GeometryNode', 'InputVoxelIndex', 'Voxel Index', '体素编号', ['ti', 'su', 'bian', 'hao']),
+    ('GeometryNode', 'GridAdvect', 'Grid Advect', '平流栅格', ['ping', 'liu', 'shan', 'ge']),
+    ('GeometryNode', 'GridCurl', 'Grid Curl', '栅格旋度', ['shan', 'ge', 'xuan', 'du']),
+    ('GeometryNode', 'GridDivergence', 'Grid Divergence', '栅格散度', ['shan', 'ge', 'san', 'du']),
+    ('GeometryNode', 'GridGradient', 'Grid Gradient', '栅格梯度', ['shan', 'ge', 'ti', 'du']),
+    ('GeometryNode', 'GridLaplacian', 'Grid Laplacian', '栅格拉普拉斯', ['shan', 'ge', 'la', 'pu', 'la', 'si']),
+    ('GeometryNode', 'FieldToGrid', 'Field to Grid', '场 转换为 栅格', ['chang', 'zhuan', 'huan', 'wei', 'shan', 'ge']),
+    ('GeometryNode', 'SDFGridOffset', 'SDF Grid Offset', 'SDF 栅格偏移', ['sdf', 'shan', 'ge', 'pian', 'yi']),
+    ('GeometryNode', 'GridVoxelize', 'Voxelize Grid', '体素化栅格', ['ti', 'su', 'hua', 'shan', 'ge']),
+    ('GeometryNode', 'GridPrune', 'Prune Grid', '精简栅格', ['jing', 'jian', 'shan', 'ge']),
+    ('GeometryNode', 'SDFGridMean', 'SDF Grid Mean', 'SDF 栅格平均值', ['sdf', 'shan', 'ge', 'ping', 'jun', 'zhi']),
+    ('GeometryNode', 'SDFGridMedian', 'SDF Grid Median', 'SDF 栅格中值', ['sdf', 'shan', 'ge', 'zhong', 'zhi']),
+    ('GeometryNode', 'SDFGridMeanCurvature', 'SDF Grid Mean Curvature', 'SDF 栅格平均曲率',
+     ['sdf', 'shan', 'ge', 'ping', 'jun', 'qu', 'lv']),
+    ('GeometryNode', 'UVTangent', 'UV Tangent', 'UV切向', ['u', 'v', 'qie', 'xiang']),
+
 ]
 
 SHADER_NODE_IN_GEOMETRY = {
@@ -586,6 +641,17 @@ SHADER_NODE_IN_GEOMETRY = {
     "ShaderNodeClamp",
     "ShaderNodeVectorRotate",
     "ShaderNodeValToRGB",
+}
+
+GEOMETRY_NODE_IN_SHADER = {
+    "GeometryNodeMenuSwitch": (5, 0, 0)
+}
+
+SHADER_NODE_ASSET = {
+    "Combine Cylindrical": ["合并柱坐标", ['he', 'bing', 'zhu', 'zuo', 'biao']],
+    "Separate Cylindrical": ["分离柱坐标", ['fen', 'li', 'zhu', 'zuo', 'biao']],
+    "Combine Spherical": ["合并球坐标", ['he', 'bing', 'qiu', 'zuo', 'biao']],
+    "Separate Spherical": ["分离球坐标", ['fen', 'li', 'qiu', 'zuo', 'biao']],
 }
 
 # https://github.com/dikkietrom/KITT-AI-Browser/blob/0f30ad21f71fa087e6955daa4395c80b20dc18b4/plugins/blender/%23#L499
@@ -615,12 +681,25 @@ HAIR_NODES = {
     "Attach Hair Curves to Surface": ["毛发曲线附着到表面",
                                       ['mao', 'fa', 'qu', 'xian', 'fu', 'zhe', 'dao', 'biao', 'mian']],
     "Redistribute Curve Points": ["重新分布曲线点", ['chong', 'xin', 'fen', 'bu', 'qu', 'xian', 'dian']],
-    "Restore Curve Segment Length": ["恢复曲线段长度", ['hui', 'fu', 'qu', 'xian', 'duan', 'zhang', 'du']],
+    "Restore Curve Segment Length": ["恢复曲线段长度", ['hui', 'fu', 'qu', 'xian', 'duan', 'chang', 'du']],
     "Set Hair Curve Profile": ["设置毛发曲线轮廓", ['she', 'zhi', 'mao', 'fa', 'qu', 'xian', 'lun', 'kuo']],
 }
 
 SMOOTH_BY_ANGLE = {
     "Smooth by Angle": ["按角度平滑", ['an', 'jiao', 'du', 'ping', 'hua']],
+}
+
+GEN_NODE = {
+    "Array": ["阵列", ['zhen', 'lie']],
+    "Curve to Tube": ["曲线 转换为 管形", ['qu', 'xian', 'zhuan', 'huan', 'wei', 'guan', 'xing']],
+    "Scatter on Surface": ["在表面上散布", ['zai', 'biao', 'mian', 'shang', 'san', 'bu']],
+    "Geometry Input": ["几何体输入", ['ji', 'he', 'ti', 'shu', 'ru']],
+    "Box Selection": ["方框选择", ['fang', 'kuang', 'xuan', 'ze']],
+    "Normal Selection": ["法向选择", ['fa', 'xiang', 'xuan', 'ze']],
+    "Sphere Selection": ["球形选择", ['qiu', 'xing', 'xuan', 'ze']],
+    "Instance on Elements": ["实例化于元素上", ['shi', 'li', 'hua', 'yu', 'yuan', 'su', 'shang']],
+    "Randomize Transforms": ["随机变换", ['sui', 'ji', 'bian', 'huan']],
+    "Randomize Rotation": ["随机旋转", ['sui', 'ji', 'xuan', 'zhuan']],
 }
 
 VRAY_NODE_LIST = {"NodeFrame": ["Frame", "框", ['kuang']],
@@ -841,7 +920,7 @@ MODIFIER_DICT = {
     "WIREFRAME": ["Wireframe", "线框", ['xian', 'kuang']],
     "GREASE_PENCIL_ARRAY": ["Array", "阵列", ['zhen', 'lie']],
     "GREASE_PENCIL_BUILD": ["Build", "建形", ['jian', 'xing']],
-    "GREASE_PENCIL_LENGTH": ["Length", "长度", ['zhang', 'du']],
+    "GREASE_PENCIL_LENGTH": ["Length", "长度", ['chang', 'du']],
     "LINEART": ["Line Art", "线条画", ['xian', 'tiao', 'hua']],
     "GREASE_PENCIL_MIRROR": ["Mirror", "镜像", ['jing', 'xiang']],
     "GREASE_PENCIL_MULTIPLY": ["Multiple Strokes", "多个笔画", ['duo', 'ge', 'bi', 'hua']],

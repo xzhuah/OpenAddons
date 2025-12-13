@@ -119,7 +119,11 @@ def iter_my_register_deps(cls, my_classes, my_classes_by_idname):
 
 
 def iter_my_deps_from_annotations(cls, my_classes):
-    for value in typing.get_type_hints(cls, {}, {}).values():
+    # Fix for https://github.com/xzhuah/BlenderAddonPackageTool/issues/15
+    import sys
+    module = sys.modules.get(cls.__module__)
+    globalns = module.__dict__ if module else {}
+    for value in typing.get_type_hints(cls, globalns, {}).values():
         dependency = get_dependency_from_annotation(value)
         if dependency is not None:
             if dependency in my_classes:
@@ -134,7 +138,10 @@ def iter_my_deps_from_inheritance(cls, my_classes):
 
 def get_dependency_from_annotation(value):
     if blender_version >= (2, 93):
-        if isinstance(value, bpy.props._PropertyDeferred):
+        # Avoid checking private types
+        # if isinstance(value, bpy.props._PropertyDeferred):
+        #     return value.keywords.get("type")
+        if hasattr(value, "keywords") and isinstance(value.keywords, dict):
             return value.keywords.get("type")
     else:
         if isinstance(value, tuple) and len(value) == 2:
@@ -175,13 +182,15 @@ def iter_classes_in_module(module):
 
 
 def get_register_base_types():
-    return set(getattr(bpy.types, name) for name in [
+    names = [
         "Panel", "Operator", "PropertyGroup",
         "AddonPreferences", "Header", "Menu",
         "Node", "NodeSocket", "NodeTree",
         "UIList", "RenderEngine",
         "Gizmo", "GizmoGroup",
-    ])
+        "FileHandler",
+    ]
+    return {getattr(bpy.types, name) for name in names if hasattr(bpy.types, name)}
 
 
 def get_framework_base_classes():
@@ -192,6 +201,21 @@ def get_framework_base_classes():
 #################################################
 
 def toposort(deps_dict):
+    # Disallow circular dependencies
+    if deps_dict:
+        test_deps = {k: v.copy() for k, v in deps_dict.items()}
+        for _ in range(len(deps_dict)):
+            resolved = [k for k, v in test_deps.items() if not v]
+            if not resolved:
+                # 避免循环依赖
+                raise ValueError(f"Circular dependency detected: {list(test_deps.keys())}")
+            for k in resolved:
+                del test_deps[k]
+            for v in test_deps.values():
+                v -= set(resolved)
+            if not test_deps:
+                break
+
     sorted_list = []
     sorted_values = set()
     while len(deps_dict) > 0:
