@@ -118,129 +118,254 @@ def mix_color_label_name():
     return combine_label_name("混合颜色", ["hun", "he", "yan", "se"], "MixColor")
 
 
-class ChineseNodeSearchMenu(bpy.types.Menu):
-    """PinYin Node Search Menu"""
-    bl_idname = "NODE_MT_add_enhanced"
-    bl_label = "Add Node"
+if hasattr(node_add_menu, "AddNodeMenu"):
+    class ChineseNodeSearchV2Menu(node_add_menu.AddNodeMenu):
+        """PinYin Node Search Menu"""
+        bl_idname = "NODE_MT_add_enhanced"
+        bl_label = "Add Node"
 
-    def draw(self, context: Context):
-        layout = self.layout
-        if context.space_data.tree_type == "ShaderNodeTree":
-            for item in PIN_YIN_NODE_LIST:
-                opname = item[0] + item[1]
-                if item[0] == "ShaderNode" or item[0] == "Node" or (
-                        opname in GEOMETRY_NODE_IN_SHADER and bpy.app.version >= GEOMETRY_NODE_IN_SHADER[opname]):
-                    if hasattr(bpy.types, opname):
-                        node_add_menu.add_node_type(layout, opname, label=label_name(item))
+        def draw(self, context: Context):
+            layout = self.layout
+            if context.space_data.tree_type == "ShaderNodeTree":
+                for item in PIN_YIN_NODE_LIST:
+                    opname = item[0] + item[1]
+                    if item[0] == "ShaderNode" or item[0] == "Node" or (
+                            opname in GEOMETRY_NODE_IN_SHADER and bpy.app.version >= GEOMETRY_NODE_IN_SHADER[opname]):
+                        if hasattr(bpy.types, opname):
+                            self.node_operator(layout, opname, label=label_name(item))
 
-            if hasattr(bpy.types, "ShaderNodeMix"):
-                props = node_add_menu.add_node_type(layout, "ShaderNodeMix", label=mix_color_label_name())
-                ops = props.settings.add()
-                ops.name = "data_type"
-                ops.value = "'RGBA'"
+                if hasattr(bpy.types, "ShaderNodeMix"):
+                    props =  self.node_operator(layout, "ShaderNodeMix", label=mix_color_label_name())
+                    ops = props.settings.add()
+                    ops.name = "data_type"
+                    ops.value = "'RGBA'"
 
-            if hasattr(node_add_menu, "add_repeat_zone") and bpy.app.version >= (5, 0, 0):
-                node_add_menu.add_repeat_zone(layout, label=combine_label_name("重复", ["chong", "fu"], "Repeat"))
+                if hasattr(node_add_menu, "add_repeat_zone") and bpy.app.version >= (5, 0, 0):
+                    node_add_menu.add_repeat_zone(layout, label=combine_label_name("重复", ["chong", "fu"], "Repeat"))
 
-            if hasattr(node_add_menu, "add_closure_zone") and bpy.app.version >= (5, 0, 0):
-                node_add_menu.add_closure_zone(layout, label=combine_label_name("闭包", ["bi", "bao"], "Closure"))
+                if hasattr(node_add_menu, "add_closure_zone") and bpy.app.version >= (5, 0, 0):
+                    node_add_menu.add_closure_zone(layout, label=combine_label_name("闭包", ["bi", "bao"], "Closure"))
 
-            # https://github.com/blender/blender/blob/main/scripts/startup/bl_ui/node_add_menu_geometry.py#L59
-            if hasattr(node_add_menu, "draw_root_assets") or bpy.app.version >= (5, 0, 0):
-                for key in SHADER_NODE_ASSET:
-                    ops = layout.operator("node.add_group_asset", text=asset_label_name(key, SHADER_NODE_ASSET[key]))
-                    ops.asset_library_type = 'ESSENTIALS'
-                    ops.asset_library_identifier = ""
+                # https://github.com/blender/blender/blob/main/scripts/startup/bl_ui/node_add_menu_geometry.py#L59
+                if hasattr(node_add_menu, "draw_root_assets") or bpy.app.version >= (5, 0, 0):
+                    for key in SHADER_NODE_ASSET:
+                        ops = layout.operator("node.add_group_asset", text=asset_label_name(key, SHADER_NODE_ASSET[key]))
+                        ops.asset_library_type = 'ESSENTIALS'
+                        ops.asset_library_identifier = ""
 
-                    ops.relative_asset_identifier = os.path.join("nodes", "shading_nodes_essentials.blend",
-                                                                 "NodeTree", key)
+                        ops.relative_asset_identifier = os.path.join("nodes", "shading_nodes_essentials.blend",
+                                                                     "NodeTree", key)
 
-        elif context.space_data.tree_type == "CompositorNodeTree":
-            for item in PIN_YIN_NODE_LIST:
-                opname = item[0] + item[1]
-                if (item[0] == "CompositorNode" or item[0] == "Node" or
-                        (opname in SHADER_NODE_IN_GEOMETRY and bpy.app.version >= (4, 5, 0))):
-                    if hasattr(bpy.types, opname):
-                        node_add_menu.add_node_type(layout, opname, label=label_name(item))
+            elif context.space_data.tree_type == "CompositorNodeTree":
+                for item in PIN_YIN_NODE_LIST:
+                    opname = item[0] + item[1]
+                    if (item[0] == "CompositorNode" or item[0] == "Node" or
+                            (opname in SHADER_NODE_IN_GEOMETRY and bpy.app.version >= (4, 5, 0))):
+                        if hasattr(bpy.types, opname):
+                            self.node_operator(layout, opname, label=label_name(item))
 
-        elif context.space_data.tree_type == "GeometryNodeTree":
-            for item in PIN_YIN_NODE_LIST:
-                opname = item[0] + item[1]
-                if not hasattr(bpy.types, opname):
-                    continue
-                # https://github.com/blender/blender/blob/c9886ca90a7ece08d5ab742c8e07459ff9d3495e/scripts/startup/bl_ui/node_add_menu_geometry.py
-                # if opname == "GeometryNodeToolFaceSet" or opname == "GeometryNodeToolSetFaceSet":
-                #     if not context.space_data.geometry_nodes_type == 'TOOL':
-                #         continue
-                # if opname == "GeometryNodeMeshToDensityGrid" or opname == "GeometryNodeMeshToPoints" or opname == "GeometryNodeDistributePointsInGrid" or opname == "GeometryNodePointsToSDFGrid":
-                #     if not context.preferences.experimental.use_new_volume_nodes:
-                #         continue
-                if item[0] == "GeometryNode" or item[0] == "Node" or item[
-                    0] == "FunctionNode" or opname in SHADER_NODE_IN_GEOMETRY:
-                    node_add_menu.add_node_type(layout, opname, label=label_name(item))
-            if hasattr(bpy.types, "ShaderNodeMix"):
-                props = node_add_menu.add_node_type(layout, "ShaderNodeMix",
-                                                    label=mix_vector_label_name())
-                ops = props.settings.add()
-                ops.name = "data_type"
-                ops.value = "'VECTOR'"
+            elif context.space_data.tree_type == "GeometryNodeTree":
+                for item in PIN_YIN_NODE_LIST:
+                    opname = item[0] + item[1]
+                    if not hasattr(bpy.types, opname):
+                        continue
+                    # https://github.com/blender/blender/blob/c9886ca90a7ece08d5ab742c8e07459ff9d3495e/scripts/startup/bl_ui/node_add_menu_geometry.py
+                    # if opname == "GeometryNodeToolFaceSet" or opname == "GeometryNodeToolSetFaceSet":
+                    #     if not context.space_data.geometry_nodes_type == 'TOOL':
+                    #         continue
+                    # if opname == "GeometryNodeMeshToDensityGrid" or opname == "GeometryNodeMeshToPoints" or opname == "GeometryNodeDistributePointsInGrid" or opname == "GeometryNodePointsToSDFGrid":
+                    #     if not context.preferences.experimental.use_new_volume_nodes:
+                    #         continue
+                    if item[0] == "GeometryNode" or item[0] == "Node" or item[
+                        0] == "FunctionNode" or opname in SHADER_NODE_IN_GEOMETRY:
+                        self.node_operator(layout, opname, label=label_name(item))
+                if hasattr(bpy.types, "ShaderNodeMix"):
+                    props = self.node_operator(layout, "ShaderNodeMix",
+                                                        label=mix_vector_label_name())
+                    ops = props.settings.add()
+                    ops.name = "data_type"
+                    ops.value = "'VECTOR'"
 
-                props = node_add_menu.add_node_type(layout, "ShaderNodeMix", label=mix_color_label_name())
-                ops = props.settings.add()
-                ops.name = "data_type"
-                ops.value = "'RGBA'"
-            if hasattr(node_add_menu, "add_simulation_zone"):
-                node_add_menu.add_simulation_zone(layout, label=combine_label_name("模拟", ["mo", "ni"], "Simulation"))
+                    props = self.node_operator(layout, "ShaderNodeMix", label=mix_color_label_name())
+                    ops = props.settings.add()
+                    ops.name = "data_type"
+                    ops.value = "'RGBA'"
+                if hasattr(self, "simulation_zone"):
+                    self.simulation_zone(layout, label=combine_label_name("模拟", ["mo", "ni"], "Simulation"))
 
-            if hasattr(node_add_menu, "add_foreach_geometry_element_zone"):
-                node_add_menu.add_foreach_geometry_element_zone(layout, label=combine_label_name("遍历元素",
-                                                                                                 ["bian", "li", "yuan",
-                                                                                                  "su"],
-                                                                                                 "For Each Element"))
+                if hasattr(self, "for_each_element_zone"):
+                    self.for_each_element_zone(layout, label=combine_label_name("遍历元素",
+                                                                                                     ["bian", "li", "yuan",
+                                                                                                      "su"],
+                                                                                                     "For Each Element"))
 
-            if hasattr(node_add_menu, "add_repeat_zone"):
-                node_add_menu.add_repeat_zone(layout, label=combine_label_name("重复", ["chong", "fu"], "Repeat"))
+                if hasattr(self, "repeat_zone"):
+                    self.repeat_zone(layout, label=combine_label_name("重复", ["chong", "fu"], "Repeat"))
 
-            if hasattr(node_add_menu, "add_closure_zone") and bpy.app.version >= (5, 0, 0):
-                node_add_menu.add_closure_zone(layout, label=combine_label_name("闭包", ["bi", "bao"], "Closure"))
+                if hasattr(self, "closure_zone") and bpy.app.version >= (5, 0, 0):
+                    self.closure_zone(layout, label=combine_label_name("闭包", ["bi", "bao"], "Closure"))
 
-            if hasattr(node_add_menu, "draw_root_assets") or bpy.app.version >= (5, 0, 0):
-                layout.operator_context = "INVOKE_DEFAULT"
-                for key in HAIR_NODES:
-                    ops = layout.operator("node.add_group_asset", text=asset_label_name(key, HAIR_NODES[key]))
-                    ops.asset_library_type = 'ESSENTIALS'
-                    ops.asset_library_identifier = ""
+                if hasattr(node_add_menu, "draw_root_assets") or bpy.app.version >= (5, 0, 0):
+                    layout.operator_context = "INVOKE_DEFAULT"
+                    for key in HAIR_NODES:
+                        ops = layout.operator("node.add_group_asset", text=asset_label_name(key, HAIR_NODES[key]))
+                        ops.asset_library_type = 'ESSENTIALS'
+                        ops.asset_library_identifier = ""
 
-                    ops.relative_asset_identifier = os.path.join(get_geo_assert_node_path_parent(), "procedural_hair_node_assets.blend",
-                                                                 "NodeTree", key)
+                        ops.relative_asset_identifier = os.path.join(get_geo_assert_node_path_parent(), "procedural_hair_node_assets.blend",
+                                                                     "NodeTree", key)
 
-                for key in SMOOTH_BY_ANGLE:
-                    ops = layout.operator("node.add_group_asset", text=asset_label_name(key, SMOOTH_BY_ANGLE[key]))
-                    ops.asset_library_type = 'ESSENTIALS'
-                    ops.asset_library_identifier = ""
-                    ops.relative_asset_identifier = os.path.join(get_geo_assert_node_path_parent(),
-                                                                "smooth_by_angle.blend" if  bpy.app.version < (5, 0, 0) else "geometry_nodes_essentials.blend",
-                                                                 "NodeTree", key)
-
-                if bpy.app.version >= (5, 0, 0):
-                    for key in GEN_NODE:
-                        ops = layout.operator("node.add_group_asset", text=asset_label_name(key, GEN_NODE[key]))
+                    for key in SMOOTH_BY_ANGLE:
+                        ops = layout.operator("node.add_group_asset", text=asset_label_name(key, SMOOTH_BY_ANGLE[key]))
                         ops.asset_library_type = 'ESSENTIALS'
                         ops.asset_library_identifier = ""
                         ops.relative_asset_identifier = os.path.join(get_geo_assert_node_path_parent(),
-                                                                     "geometry_nodes_essentials.blend",
+                                                                    "smooth_by_angle.blend" if  bpy.app.version < (5, 0, 0) else "geometry_nodes_essentials.blend",
                                                                      "NodeTree", key)
 
-        elif context.space_data.tree_type == "TextureNodeTree":
-            for item in PIN_YIN_NODE_LIST:
-                if item[0] == "TextureNode" or item[0] == "Node":
-                    opname = item[0] + item[1]
-                    if hasattr(bpy.types, opname):
-                        node_add_menu.add_node_type(layout, opname, label=label_name(item))
+                    if bpy.app.version >= (5, 0, 0):
+                        for key in GEN_NODE:
+                            ops = layout.operator("node.add_group_asset", text=asset_label_name(key, GEN_NODE[key]))
+                            ops.asset_library_type = 'ESSENTIALS'
+                            ops.asset_library_identifier = ""
+                            ops.relative_asset_identifier = os.path.join(get_geo_assert_node_path_parent(),
+                                                                         "geometry_nodes_essentials.blend",
+                                                                         "NodeTree", key)
 
-        elif context.space_data.tree_type == "VRayNodeTreeEditor":
-            for key in VRAY_NODE_LIST:
-                node_add_menu.add_node_type(layout, key, label=vray_label_name(VRAY_NODE_LIST[key]))
+            elif context.space_data.tree_type == "TextureNodeTree":
+                for item in PIN_YIN_NODE_LIST:
+                    if item[0] == "TextureNode" or item[0] == "Node":
+                        opname = item[0] + item[1]
+                        if hasattr(bpy.types, opname):
+                            self.node_operator(layout, opname, label=label_name(item))
+
+            elif context.space_data.tree_type == "VRayNodeTreeEditor":
+                for key in VRAY_NODE_LIST:
+                    self.node_operator(layout, key, label=vray_label_name(VRAY_NODE_LIST[key]))
+else:
+    class ChineseNodeSearchMenu(bpy.types.Menu):
+        """PinYin Node Search Menu"""
+        bl_idname = "NODE_MT_add_enhanced"
+        bl_label = "Add Node"
+
+        def draw(self, context: Context):
+            layout = self.layout
+            if context.space_data.tree_type == "ShaderNodeTree":
+                for item in PIN_YIN_NODE_LIST:
+                    opname = item[0] + item[1]
+                    if item[0] == "ShaderNode" or item[0] == "Node" or (
+                            opname in GEOMETRY_NODE_IN_SHADER and bpy.app.version >= GEOMETRY_NODE_IN_SHADER[opname]):
+                        if hasattr(bpy.types, opname):
+                            node_add_menu.add_node_type(layout, opname, label=label_name(item))
+
+                if hasattr(bpy.types, "ShaderNodeMix"):
+                    props = node_add_menu.add_node_type(layout, "ShaderNodeMix", label=mix_color_label_name())
+                    ops = props.settings.add()
+                    ops.name = "data_type"
+                    ops.value = "'RGBA'"
+
+                if hasattr(node_add_menu, "add_repeat_zone") and bpy.app.version >= (5, 0, 0):
+                    node_add_menu.add_repeat_zone(layout, label=combine_label_name("重复", ["chong", "fu"], "Repeat"))
+
+                if hasattr(node_add_menu, "add_closure_zone") and bpy.app.version >= (5, 0, 0):
+                    node_add_menu.add_closure_zone(layout, label=combine_label_name("闭包", ["bi", "bao"], "Closure"))
+
+                # https://github.com/blender/blender/blob/main/scripts/startup/bl_ui/node_add_menu_geometry.py#L59
+                if hasattr(node_add_menu, "draw_root_assets") or bpy.app.version >= (5, 0, 0):
+                    for key in SHADER_NODE_ASSET:
+                        ops = layout.operator("node.add_group_asset", text=asset_label_name(key, SHADER_NODE_ASSET[key]))
+                        ops.asset_library_type = 'ESSENTIALS'
+                        ops.asset_library_identifier = ""
+
+                        ops.relative_asset_identifier = os.path.join("nodes", "shading_nodes_essentials.blend",
+                                                                     "NodeTree", key)
+
+            elif context.space_data.tree_type == "CompositorNodeTree":
+                for item in PIN_YIN_NODE_LIST:
+                    opname = item[0] + item[1]
+                    if (item[0] == "CompositorNode" or item[0] == "Node" or
+                            (opname in SHADER_NODE_IN_GEOMETRY and bpy.app.version >= (4, 5, 0))):
+                        if hasattr(bpy.types, opname):
+                            node_add_menu.add_node_type(layout, opname, label=label_name(item))
+
+            elif context.space_data.tree_type == "GeometryNodeTree":
+                for item in PIN_YIN_NODE_LIST:
+                    opname = item[0] + item[1]
+                    if not hasattr(bpy.types, opname):
+                        continue
+                    # https://github.com/blender/blender/blob/c9886ca90a7ece08d5ab742c8e07459ff9d3495e/scripts/startup/bl_ui/node_add_menu_geometry.py
+                    # if opname == "GeometryNodeToolFaceSet" or opname == "GeometryNodeToolSetFaceSet":
+                    #     if not context.space_data.geometry_nodes_type == 'TOOL':
+                    #         continue
+                    # if opname == "GeometryNodeMeshToDensityGrid" or opname == "GeometryNodeMeshToPoints" or opname == "GeometryNodeDistributePointsInGrid" or opname == "GeometryNodePointsToSDFGrid":
+                    #     if not context.preferences.experimental.use_new_volume_nodes:
+                    #         continue
+                    if item[0] == "GeometryNode" or item[0] == "Node" or item[
+                        0] == "FunctionNode" or opname in SHADER_NODE_IN_GEOMETRY:
+                        node_add_menu.add_node_type(layout, opname, label=label_name(item))
+                if hasattr(bpy.types, "ShaderNodeMix"):
+                    props = node_add_menu.add_node_type(layout, "ShaderNodeMix",
+                                                        label=mix_vector_label_name())
+                    ops = props.settings.add()
+                    ops.name = "data_type"
+                    ops.value = "'VECTOR'"
+
+                    props = node_add_menu.add_node_type(layout, "ShaderNodeMix", label=mix_color_label_name())
+                    ops = props.settings.add()
+                    ops.name = "data_type"
+                    ops.value = "'RGBA'"
+                if hasattr(node_add_menu, "add_simulation_zone"):
+                    node_add_menu.add_simulation_zone(layout, label=combine_label_name("模拟", ["mo", "ni"], "Simulation"))
+
+                if hasattr(node_add_menu, "add_foreach_geometry_element_zone"):
+                    node_add_menu.add_foreach_geometry_element_zone(layout, label=combine_label_name("遍历元素",
+                                                                                                     ["bian", "li", "yuan",
+                                                                                                      "su"],
+                                                                                                     "For Each Element"))
+
+                if hasattr(node_add_menu, "add_repeat_zone"):
+                    node_add_menu.add_repeat_zone(layout, label=combine_label_name("重复", ["chong", "fu"], "Repeat"))
+
+                if hasattr(node_add_menu, "add_closure_zone") and bpy.app.version >= (5, 0, 0):
+                    node_add_menu.add_closure_zone(layout, label=combine_label_name("闭包", ["bi", "bao"], "Closure"))
+
+                if hasattr(node_add_menu, "draw_root_assets") or bpy.app.version >= (5, 0, 0):
+                    layout.operator_context = "INVOKE_DEFAULT"
+                    for key in HAIR_NODES:
+                        ops = layout.operator("node.add_group_asset", text=asset_label_name(key, HAIR_NODES[key]))
+                        ops.asset_library_type = 'ESSENTIALS'
+                        ops.asset_library_identifier = ""
+
+                        ops.relative_asset_identifier = os.path.join(get_geo_assert_node_path_parent(), "procedural_hair_node_assets.blend",
+                                                                     "NodeTree", key)
+
+                    for key in SMOOTH_BY_ANGLE:
+                        ops = layout.operator("node.add_group_asset", text=asset_label_name(key, SMOOTH_BY_ANGLE[key]))
+                        ops.asset_library_type = 'ESSENTIALS'
+                        ops.asset_library_identifier = ""
+                        ops.relative_asset_identifier = os.path.join(get_geo_assert_node_path_parent(),
+                                                                    "smooth_by_angle.blend" if  bpy.app.version < (5, 0, 0) else "geometry_nodes_essentials.blend",
+                                                                     "NodeTree", key)
+
+                    if bpy.app.version >= (5, 0, 0):
+                        for key in GEN_NODE:
+                            ops = layout.operator("node.add_group_asset", text=asset_label_name(key, GEN_NODE[key]))
+                            ops.asset_library_type = 'ESSENTIALS'
+                            ops.asset_library_identifier = ""
+                            ops.relative_asset_identifier = os.path.join(get_geo_assert_node_path_parent(),
+                                                                         "geometry_nodes_essentials.blend",
+                                                                         "NodeTree", key)
+
+            elif context.space_data.tree_type == "TextureNodeTree":
+                for item in PIN_YIN_NODE_LIST:
+                    if item[0] == "TextureNode" or item[0] == "Node":
+                        opname = item[0] + item[1]
+                        if hasattr(bpy.types, opname):
+                            node_add_menu.add_node_type(layout, opname, label=label_name(item))
+
+            elif context.space_data.tree_type == "VRayNodeTreeEditor":
+                for key in VRAY_NODE_LIST:
+                    node_add_menu.add_node_type(layout, key, label=vray_label_name(VRAY_NODE_LIST[key]))
 
 
 class ChineseModifierSearchMenu(bpy.types.Menu):
@@ -288,7 +413,10 @@ class MenuToExpand(ExpandableUi):
     target_id = bpy.types.NODE_MT_add.__name__
 
     def draw(self, context: bpy.types.Context):
-        self.layout.menu(ChineseNodeSearchMenu.bl_idname, text="Enhanced Search")
+        if not hasattr(node_add_menu, "AddNodeMenu"):
+            self.layout.menu(ChineseNodeSearchMenu.bl_idname, text="Enhanced Search")
+        else:
+            self.layout.menu(ChineseNodeSearchV2Menu.bl_idname, text="Enhanced Search")
 
 
 class ModifierMenuToExpand(ExpandableUi):
