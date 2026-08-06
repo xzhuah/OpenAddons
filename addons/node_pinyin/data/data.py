@@ -8,6 +8,9 @@ PIN_YIN_NODE_LIST = [
     ('Node', 'CombineBundle', 'Combine Bundle', '合并捆包', ['he', 'bing', 'kun', 'bao']),
     ('Node', 'SeparateBundle', 'Separate Bundle', '分离捆包', ['fen', 'li', 'kun', 'bao']),
     ('Node', 'EnableOutput', 'Enable Output', '启用输出', ['qi', 'yong', 'shu', 'chu']),
+    ('Node', 'ImplicitConversion', 'Implicit Conversion', '隐式转换/转为颜色',
+     ['yin', 'shi', 'zhuan', 'huan', 'zhuan', 'wei', "yan", "se"]),
+    ('Node', 'JoinBundle', 'Join Bundle', '加入捆包', ['jia', 'ru', 'kun', 'bao']),
 
     ('ShaderNode', 'BrightContrast', 'Brightness/Contrast', '亮度 / 对比度', ['liang', 'du', 'dui', 'bi', 'du']),
     ('ShaderNode', 'CameraData', 'Camera Data', '摄像机数据', ['she', 'xiang', 'ji', 'shu', 'ju']),
@@ -226,6 +229,9 @@ PIN_YIN_NODE_LIST = [
     ('CompositorNode', 'ImageInfo', 'Image Info', '图像信息', ['tu', 'xiang', 'xin', 'xi']),
     ('CompositorNode', 'ConvertToDisplay', 'Convert To Display', '转换为显示', ['zhuan', 'huan', 'wei', 'xian', 'shi']),
     ('CompositorNode', 'Zcombine', 'Depth Combine', '深度合成', ['shen', 'du', 'he', 'cheng']),
+    ('CompositorNode', 'BlankImage', 'Blank Image', '空白图像', ['kong', 'bai', 'tu', 'xiang']),
+    ('CompositorNode', 'StringToImage', 'String to Image', '字符串转为图像',
+     ['zi', 'fu', 'chuan', 'zhuan', 'wei', 'tu', 'xiang']),
 
     ('TextureNode', 'At', 'At', '属性', ['shu', 'xing']),
     ('TextureNode', 'Bricks', 'Bricks', '砖墙', ['zhuan', 'qiang']),
@@ -615,6 +621,68 @@ PIN_YIN_NODE_LIST = [
      ['sdf', 'shan', 'ge', 'ping', 'jun', 'qu', 'lv']),
     ('GeometryNode', 'UVTangent', 'UV Tangent', 'UV切向', ['u', 'v', 'qie', 'xiang']),
 
+    # GeometryNodeSampleSoundFrequencies 采样声音频率
+    ('GeometryNode', 'SampleSoundFrequencies', 'Sample Sound Frequencies', '采样声音频率',
+     ['cai', 'yang', 'sheng', 'yin', 'pin', 'lv']),
+    ('GeometryNode', 'TransferAttributes', 'Transfer Attributes', '传递属性',
+     ['chuan', 'di', 'shu', 'xing']),
+
+    #######
+
+    # Geometry Bundles (几何数据包)
+    ('GeometryNode', 'SetGeometryBundle', 'Set Geometry Bundle', '设置几何体捆包',
+     ['she', 'zhi', 'ji', 'he', 'ti', 'dun', 'bao']),
+    ('GeometryNode', 'GetGeometryBundle', 'Get Geometry Bundle', '获取几何体捆包',
+     ['huo', 'qu', 'ji', 'he', 'ti', 'dun', 'bao']),
+
+    # Lists (列表)
+    ('GeometryNode', 'FieldToList', 'Field to List', '场转为列表', ['chang', 'zhuan', 'wei', 'lie', 'biao']),
+    ('GeometryNode', 'ClosureToList', 'Closure to List', '闭包转为列表', ['bi', 'bao', 'zhuan', 'wei', 'lie', 'biao']),
+    ('GeometryNode', 'ListLength', 'List Length', '列表长度', ['lie', 'biao', 'chang', 'du']),
+    ('GeometryNode', 'ListGetItem', 'Get List Item', '获取列表项目', ['huo', 'qu', 'lie', 'biao', 'xiang', 'mu']),
+    ('GeometryNode', 'FilterList', 'Filter List', '过滤列表', ['guo', 'lv', 'lie', 'biao']),
+    ('GeometryNode', 'SortList', 'Sort List', '排序列表', ['pai', 'xu', 'lie', 'biao']),
+
+    # Collections (集合)
+    ('GeometryNode', 'CollectionChildren', 'Collection Children', '集合子级', ['ji', 'he', 'zi', 'ji']),
+    #
+    # # Sound (声音)
+    # ('GeometryNode', 'SampleSoundFrequencies', 'Sample Sound Frequencies', '采样声音频率',
+    #  ['cai', 'yang', 'sheng', 'yin', 'pin', 'lv']),
+
+    # Merging Points (合并点)
+    ('GeometryNode', 'MergePoints', 'Merge Points', '合并点', ['he', 'bing', 'dian']),
+    ('GeometryNode', 'ClusterByDistance', 'Cluster by Distance', '按距离聚集', ['an', 'ju', 'li', 'ju', 'lei']),
+    ('GeometryNode', 'ClusterByConnected', 'Cluster by Connected', '按连通性聚集',
+     ['an', 'lian', 'tong', 'xin', 'ju', 'lei']),
+
+    # Mesh (网格)
+    ('GeometryNode', 'MeshBevel', 'Mesh Bevel', '网格倒角', ['wang', 'ge', 'dao', 'jiao']),
+
+    # Attributes (属性)
+    ('GeometryNode', 'RenameAttribute', 'Rename Attribute', '重命名属性', ['chong', 'ming', 'ming', 'shu', 'xing']),
+    ('GeometryNode', 'GetAttributeNames', 'Get Attribute Names', '获取属性名称',
+     ['huo', 'qu', 'shu', 'xing', 'ming', 'cheng']),
+    ('GeometryNode', 'TransferAttributes', 'Transfer Attributes', '传递属性', ['chuan', 'di', 'shu', 'xing']),
+
+    # Curves (曲线)
+    ('GeometryNode', 'SetNURBSOrder', 'Set NURBS Order', '设置NURBS阶数',
+     ['she', 'zhi', 'n', 'u', 'r', 'b', 's', 'jie', 'shu']),
+    ('GeometryNode', 'SetNURBSWeight', 'Set NURBS Weight', '设置NURBS权重',
+     ['she', 'zhi', 'n', 'u', 'r', 'b', 's', 'quan', 'zhong']),
+
+    # Strings (字符串)
+    ('FunctionNode', 'TrimString', 'Trim String', '修剪字符串', ['xiu', 'jian', 'zi', 'fu', 'chuan']),
+    ('FunctionNode', 'ReverseString', 'Reverse String', '反转字符串', ['fan', 'zhuan', 'zi', 'fu', 'chuan']),
+    ('FunctionNode', 'SetStringCase', 'Set String Case', '设置字符串大小写',
+     ['she', 'zhi', 'zi', 'fu', 'chuan', 'da', 'xiao', 'xie']),
+    ('FunctionNode', 'SplitString', 'Split String', '拆分字符串', ['chai', 'fen', 'zi', 'fu', 'chuan']),
+
+    # Miscellaneous (杂项)
+    ('GeometryNode', 'InputInstanceReference', 'Instance Reference', '实例引用', ['shi', 'li', 'yin', 'yong']),
+    ('GeometryNode', 'GetGeometryComponent', 'Get Geometry Component', '获取几何组件',
+     ['huo', 'qu', 'ji', 'he', 'zu', 'jian'])
+
 ]
 
 SHADER_NODE_IN_GEOMETRY = {
@@ -644,7 +712,13 @@ SHADER_NODE_IN_GEOMETRY = {
 }
 
 GEOMETRY_NODE_IN_SHADER = {
-    "GeometryNodeMenuSwitch": (5, 0, 0)
+    "GeometryNodeMenuSwitch": (5, 0, 0),
+    "GeometryNodeInputSceneTime": (5, 2, 0)
+}
+GEOMETRY_NODE_IN_COMPOSITOR = {
+    "GeometryNodeMenuSwitch": (5, 0, 0),
+    "GeometryNodeIndexSwitch": (5, 1, 0),
+    "GeometryNodeWarning": (5, 2, 0)
 }
 
 SHADER_NODE_ASSET = {

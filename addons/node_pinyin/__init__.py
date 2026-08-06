@@ -12,7 +12,7 @@ bl_info = {
     "name": "szm/首字母",
     "author": "Xinyu Zhu(异次元学者)",
     "blender": (4, 0, 0),
-    "version": (1, 3, 0),
+    "version": (1, 3, 1),
     "description": "Enable node and modifier search with PinYin/支持节点和修改器中英文拼音搜索",
     "doc_url": "https://github.com/xzhuah/OpenAddons/tree/master/addons/node_pinyin",
     "tracker_url": "https://github.com/xzhuah/OpenAddons/issues",
